@@ -18,11 +18,9 @@
     --red: #C0392B;
     --white: #F0EDE8;
     --muted: rgba(240,237,232,0.4);
-    --tag: rgba(201,168,76,0.12);
   }
 
   * { margin:0; padding:0; box-sizing:border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -33,16 +31,6 @@
     overflow-x: hidden;
   }
 
-  /* ── NOISE OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    opacity: 0.6;
-  }
-
-  /* ── AMBIENT GLOW ── */
   body::after {
     content: '';
     position: fixed;
@@ -54,7 +42,6 @@
     z-index: 0;
   }
 
-  /* ── HEADER ── */
   header {
     position: relative; z-index: 1;
     padding: 64px 24px 56px;
@@ -126,7 +113,6 @@
     line-height: 1.6;
   }
 
-  /* ── MAIN ── */
   main {
     position: relative; z-index: 1;
     max-width: 860px;
@@ -158,7 +144,6 @@
     background: var(--border);
   }
 
-  /* ── GRID ── */
   #partners-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -169,7 +154,6 @@
     #partners-grid { grid-template-columns: 1fr; }
   }
 
-  /* ── CARD ── */
   .partner-card {
     position: relative;
     background: var(--surface);
@@ -192,7 +176,6 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Glow de hover */
   .partner-card::before {
     content: '';
     position: absolute;
@@ -203,7 +186,6 @@
     border-radius: 16px;
   }
 
-  /* Linha dourada no topo */
   .partner-card::after {
     content: '';
     position: absolute;
@@ -224,7 +206,6 @@
   .partner-card:hover::before { opacity: 1; }
   .partner-card:hover::after { opacity: 1; }
 
-  /* Emoji container */
   .card-icon {
     width: 44px; height: 44px;
     background: var(--gold-dim);
@@ -238,9 +219,7 @@
     transition: transform 0.3s;
   }
 
-  .partner-card:hover .card-icon {
-    transform: scale(1.08);
-  }
+  .partner-card:hover .card-icon { transform: scale(1.08); }
 
   .card-content {
     flex: 1;
@@ -305,6 +284,25 @@
     transform: translateX(2px);
   }
 
+  .loading-state {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .loading-spinner {
+    width: 32px; height: 32px;
+    border: 2px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
   .empty-state {
     grid-column: 1/-1;
     text-align: center;
@@ -315,7 +313,6 @@
     border-radius: 16px;
   }
 
-  /* ── FOOTER ── */
   footer {
     position: relative; z-index: 1;
     text-align: center;
@@ -341,10 +338,8 @@
     font-weight: 500;
   }
   .footer-inner a:hover { opacity: 1; }
-
   .footer-sep { opacity: 0.2; }
 
-  /* ── ADMIN BTN ── */
   #admin-btn {
     position: fixed;
     bottom: 24px; right: 24px; z-index: 100;
@@ -369,7 +364,6 @@
     transform: translateY(-2px);
   }
 
-  /* ── OVERLAY ── */
   #overlay {
     display: none;
     position: fixed; inset: 0; z-index: 200;
@@ -462,11 +456,9 @@
     transition: all 0.2s;
   }
   .btn-add:hover { background: #D4B060; transform: translateY(-1px); }
+  .btn-add:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-  .divider {
-    height: 1px; background: var(--border);
-    margin: 24px 0;
-  }
+  .divider { height: 1px; background: var(--border); margin: 24px 0; }
 
   .sl {
     font-family: 'Syne', sans-serif;
@@ -515,7 +507,6 @@
     margin-bottom: 10px; display: none;
   }
 
-  /* ── TOAST ── */
   #toast {
     position: fixed; top: 24px; left: 50%;
     transform: translateX(-50%) translateY(-80px);
@@ -541,7 +532,6 @@
 
 <div id="toast">Parceiro adicionado ✓</div>
 
-<!-- HEADER -->
 <header>
   <div class="header-badge">
     <span class="badge-dot"></span>
@@ -549,20 +539,19 @@
   </div>
   <h1>Brasileiros<em>no Texas</em></h1>
   <div class="header-line"></div>
-  <p>Parceiros verificados pra facilitar sua vida aqui no Texas</p>
+  <p>Parceiros de confiança pra facilitar sua vida aqui no Texas</p>
 </header>
 
-<!-- MAIN -->
 <main>
-  <div class="section-label">
-    <span>Parceiros</span>
-  </div>
+  <div class="section-label"><span>Parceiros</span></div>
   <div id="partners-grid">
-    <div class="empty-state">Nenhum parceiro cadastrado ainda.</div>
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      Carregando parceiros...
+    </div>
   </div>
 </main>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <span>@brasileirosnotexas_</span>
@@ -571,17 +560,13 @@
   </div>
 </footer>
 
-<!-- ADMIN BTN -->
 <button id="admin-btn" onclick="openAdmin()">
   <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
   Gerenciar
 </button>
 
-<!-- OVERLAY -->
 <div id="overlay" onclick="bgClose(event)">
   <div id="panel">
-
-    <!-- Senha -->
     <div id="pwd-screen">
       <div class="ph">
         <div><h2>Área Admin</h2><p>Digite a senha para continuar</p></div>
@@ -595,7 +580,6 @@
       <button class="btn-add" onclick="chkPwd()">Entrar</button>
     </div>
 
-    <!-- Painel -->
     <div id="mgmt" style="display:none">
       <div class="ph">
         <div><h2>Gerenciar</h2><p id="pcount">0 parceiros</p></div>
@@ -603,7 +587,6 @@
       </div>
 
       <div class="sl">Adicionar novo parceiro</div>
-
       <div class="fg"><label>Nome do Parceiro / Empresa</label><input type="text" id="iname" placeholder="Ex: VB Steakhouse"></div>
       <div class="fg"><label>Serviço oferecido</label><input type="text" id="iservice" placeholder="Ex: Churrascaria brasileira em Dallas"></div>
       <div class="fg"><label>Link (site, Instagram ou WhatsApp)</label><input type="text" id="ilink" placeholder="https://..."></div>
@@ -626,136 +609,154 @@
           <option value="⭐">⭐ Outro</option>
         </select>
       </div>
-      <button class="btn-add" onclick="addP()">+ Adicionar Parceiro</button>
+      <button class="btn-add" id="btn-add" onclick="addP()">+ Adicionar Parceiro</button>
 
       <div class="divider"></div>
       <div class="sl">Parceiros cadastrados</div>
       <div id="alist"></div>
     </div>
-
   </div>
 </div>
 
-<script>
-  const PASS='texas2025', KEY='bntx_v2';
-  let partners=[], authed=false;
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import { getDatabase, ref, onValue, push, remove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
-  function init(){
-    const raw=localStorage.getItem(KEY);
-    if(raw){try{partners=JSON.parse(raw);}catch(e){partners=[];}}
-    else{
-      partners=[
-        {id:1,name:'VB Steakhouse',service:'Churrascaria brasileira no Texas',link:'#',emoji:'🍖'},
-        {id:2,name:'A.T Realtor',service:'Compra, venda e aluguel de imóveis',link:'#',emoji:'🏠'},
-        {id:3,name:'Embracel Celular',service:'Planos de celular para brasileiros',link:'#',emoji:'📱'},
-        {id:4,name:'Seguro de Vida e Aposentadoria',service:'Proteção financeira e planejamento de futuro',link:'#',emoji:'🛡️'},
-        {id:5,name:'Guia Dallas',service:'Guia completo para brasileiros em Dallas',link:'#',emoji:'🗺️'},
-        {id:6,name:'Joy Açaí',service:'Açaí e alimentação saudável',link:'#',emoji:'🍧'},
-        {id:7,name:'Tenho SS, Quero Emprego',service:'Consultoria para quem tem Social Security e busca emprego',link:'#',emoji:'💼'},
-      ];
-      save();
-    }
+  // ── CONFIG FIREBASE ──
+  const firebaseConfig = {
+    databaseURL: "https://parceiros-texas-default-rtdb.firebaseio.com"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const partnersRef = ref(db, 'partners');
+
+  const PASS = 'texas2025';
+  let partners = {};
+  let authed = false;
+
+  // ── ESCUTA MUDANÇAS EM TEMPO REAL ──
+  onValue(partnersRef, (snapshot) => {
+    partners = snapshot.val() || {};
     render();
+    if (authed) renderAdmin();
+  });
+
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
-  function save(){localStorage.setItem(KEY,JSON.stringify(partners));}
-
-  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-  function render(){
-    const g=document.getElementById('partners-grid');
-    if(!partners.length){
-      g.innerHTML='<div class="empty-state">Nenhum parceiro cadastrado ainda.</div>';
+  function render() {
+    const g = document.getElementById('partners-grid');
+    const list = Object.entries(partners);
+    if (!list.length) {
+      g.innerHTML = '<div class="empty-state">Nenhum parceiro cadastrado ainda.</div>';
       return;
     }
-    g.innerHTML=partners.map((p,i)=>`
+    g.innerHTML = list.map(([key, p], i) => `
       <a class="partner-card"
-        href="${p.link&&p.link!=='#'?p.link:'javascript:void(0)'}"
-        ${p.link&&p.link!=='#'?'target="_blank" rel="noopener"':''}
-        style="animation-delay:${i*0.07}s">
+        href="${p.link && p.link !== '#' ? p.link : 'javascript:void(0)'}"
+        ${p.link && p.link !== '#' ? 'target="_blank" rel="noopener"' : ''}
+        style="animation-delay:${i * 0.07}s">
         <div class="card-icon">${p.emoji}</div>
         <div class="card-content">
           <div class="card-name">${esc(p.name)}</div>
           <div class="card-service">${esc(p.service)}</div>
         </div>
         <div class="card-footer">
-          <span class="card-cta">${p.link&&p.link!=='#'?'Ver mais':'Em breve'}</span>
+          <span class="card-cta">${p.link && p.link !== '#' ? 'Ver mais' : 'Em breve'}</span>
           <div class="card-arrow">→</div>
         </div>
       </a>`).join('');
   }
 
-  function renderAdmin(){
-    document.getElementById('pcount').textContent=`${partners.length} parceiro${partners.length!==1?'s':''} cadastrado${partners.length!==1?'s':''}`;
-    const l=document.getElementById('alist');
-    if(!partners.length){l.innerHTML='<p style="color:var(--muted);font-size:.82rem;text-align:center;padding:20px 0">Nenhum parceiro ainda.</p>';return;}
-    l.innerHTML=partners.map(p=>`
+  function renderAdmin() {
+    const list = Object.entries(partners);
+    document.getElementById('pcount').textContent = `${list.length} parceiro${list.length !== 1 ? 's' : ''} cadastrado${list.length !== 1 ? 's' : ''}`;
+    const l = document.getElementById('alist');
+    if (!list.length) {
+      l.innerHTML = '<p style="color:var(--muted);font-size:.82rem;text-align:center;padding:20px 0">Nenhum parceiro ainda.</p>';
+      return;
+    }
+    l.innerHTML = list.map(([key, p]) => `
       <div class="ai">
         <div class="ai-e">${p.emoji}</div>
-        <div class="ai-i"><div class="ai-n">${esc(p.name)}</div><div class="ai-s">${esc(p.service)}</div></div>
-        <button class="btn-del" onclick="delP(${p.id})">Remover</button>
+        <div class="ai-i">
+          <div class="ai-n">${esc(p.name)}</div>
+          <div class="ai-s">${esc(p.service)}</div>
+        </div>
+        <button class="btn-del" onclick="window._delP('${key}')">Remover</button>
       </div>`).join('');
   }
 
-  function openAdmin(){
-    document.getElementById('overlay').classList.add('open');
-    if(authed){showMgmt();}
-    else{
-      document.getElementById('pwd-screen').style.display='block';
-      document.getElementById('mgmt').style.display='none';
-      setTimeout(()=>document.getElementById('pi').focus(),250);
-    }
-  }
+  window._delP = async function(key) {
+    if (!confirm('Remover este parceiro?')) return;
+    await remove(ref(db, 'partners/' + key));
+    showToast('Parceiro removido.');
+  };
 
-  function closeAdmin(){document.getElementById('overlay').classList.remove('open');}
-  function bgClose(e){if(e.target.id==='overlay')closeAdmin();}
+  window.addP = async function() {
+    const name = document.getElementById('iname').value.trim();
+    const service = document.getElementById('iservice').value.trim();
+    const link = document.getElementById('ilink').value.trim();
+    const emoji = document.getElementById('iemoji').value;
+    if (!name || !service) { alert('Preencha nome e serviço.'); return; }
 
-  function chkPwd(){
-    if(document.getElementById('pi').value===PASS){
-      authed=true;
-      document.getElementById('perr').style.display='none';
-      document.getElementById('pi').value='';
-      showMgmt();
+    const btn = document.getElementById('btn-add');
+    btn.disabled = true;
+    btn.textContent = 'Salvando...';
+
+    await push(partnersRef, { name, service, link: link || '#', emoji });
+
+    btn.disabled = false;
+    btn.textContent = '+ Adicionar Parceiro';
+    document.getElementById('iname').value = '';
+    document.getElementById('iservice').value = '';
+    document.getElementById('ilink').value = '';
+    showToast('Parceiro adicionado ✓');
+  };
+
+  window.chkPwd = function() {
+    if (document.getElementById('pi').value === PASS) {
+      authed = true;
+      document.getElementById('perr').style.display = 'none';
+      document.getElementById('pi').value = '';
+      document.getElementById('pwd-screen').style.display = 'none';
+      document.getElementById('mgmt').style.display = 'block';
+      renderAdmin();
     } else {
-      document.getElementById('perr').style.display='block';
-      document.getElementById('pi').value='';
+      document.getElementById('perr').style.display = 'block';
+      document.getElementById('pi').value = '';
     }
-  }
+  };
 
-  function showMgmt(){
-    document.getElementById('pwd-screen').style.display='none';
-    document.getElementById('mgmt').style.display='block';
-    renderAdmin();
-  }
+  window.openAdmin = function() {
+    document.getElementById('overlay').classList.add('open');
+    if (authed) {
+      document.getElementById('pwd-screen').style.display = 'none';
+      document.getElementById('mgmt').style.display = 'block';
+      renderAdmin();
+    } else {
+      document.getElementById('pwd-screen').style.display = 'block';
+      document.getElementById('mgmt').style.display = 'none';
+      setTimeout(() => document.getElementById('pi').focus(), 250);
+    }
+  };
 
-  function addP(){
-    const name=document.getElementById('iname').value.trim();
-    const service=document.getElementById('iservice').value.trim();
-    const link=document.getElementById('ilink').value.trim();
-    const emoji=document.getElementById('iemoji').value;
-    if(!name||!service){alert('Preencha nome e serviço.');return;}
-    partners.push({id:Date.now(),name,service,link:link||'#',emoji});
-    save(); render(); renderAdmin();
-    document.getElementById('iname').value='';
-    document.getElementById('iservice').value='';
-    document.getElementById('ilink').value='';
-    toast('Parceiro adicionado ✓');
-  }
+  window.closeAdmin = function() {
+    document.getElementById('overlay').classList.remove('open');
+  };
 
-  function delP(id){
-    if(!confirm('Remover este parceiro?'))return;
-    partners=partners.filter(p=>p.id!==id);
-    save(); render(); renderAdmin();
-    toast('Parceiro removido.');
-  }
+  window.bgClose = function(e) {
+    if (e.target.id === 'overlay') window.closeAdmin();
+  };
 
-  function toast(msg){
-    const t=document.getElementById('toast');
-    t.textContent=msg; t.classList.add('show');
-    setTimeout(()=>t.classList.remove('show'),2600);
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2600);
   }
-
-  init();
 </script>
 </body>
 </html>
